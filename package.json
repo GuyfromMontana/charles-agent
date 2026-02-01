@@ -2,7 +2,6 @@
   "name": "charles-voice-agent",
   "version": "1.0.0",
   "description": "Simple message-taking voice agent for Charles's scrap business",
-  "type": "module",
   "scripts": {
     "dev": "vercel dev"
   },
