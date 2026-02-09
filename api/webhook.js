@@ -2,7 +2,7 @@ const { Resend } = require('resend');
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const CHARLES_EMAIL = process.env.CHARLES_EMAIL || 'charles@example.com';
-const FROM_EMAIL = process.env.FROM_EMAIL || 'messages@yourdomain.com';
+const FROM_EMAIL = process.env.FROM_EMAIL || 'onboarding@resend.dev'; // or your verified domain
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -59,6 +59,8 @@ Duration: ${duration}s
 Transcript:
 ${transcript}`,
     });
+
+    console.log('RESEND RESULT:', { data, error });
 
     if (error) {
       console.error('Email error:', error);
