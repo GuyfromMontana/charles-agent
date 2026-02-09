@@ -9,9 +9,10 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
-
-  try {
+try {
+    console.log('RETELL PAYLOAD:', JSON.stringify(req.body));
     const { transcript, call_id, from_number, call_duration_ms, start_timestamp } = req.body;
+ 
 
     if (!transcript || transcript.trim() === '') {
       return res.status(200).json({ status: 'skipped', reason: 'no transcript' });
