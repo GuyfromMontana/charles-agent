@@ -1,7 +1,7 @@
 const { Resend } = require('resend');
 const resend = new Resend(process.env.RESEND_API_KEY);
 const CHARLES_EMAIL = process.env.CHARLES_EMAIL || 'charles@example.com';
-const FROM_EMAIL = process.env.FROM_EMAIL || 'Answering Service <onboarding@resend.dev>';
+const FROM_EMAIL = process.env.FROM_EMAIL || 'Charles Agent <agent@axmen.com>';
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -13,10 +13,10 @@ module.exports = async function handler(req, res) {
 
     console.log('RETELL EVENT:', event);
 
-    // Only process when call is fully done and analyzed
-    if (event !== 'call_analyzed' && event !== 'call_ended') {
+    // Only process call_analyzed (has complete transcript, fires once)
+    if (event !== 'call_analyzed') {
       console.log('Skipping event:', event);
-      return res.status(200).json({ status: 'skipped', reason: 'not a call_ended/analyzed event' });
+      return res.status(200).json({ status: 'skipped', reason: 'not call_analyzed' });
     }
 
     if (!call) {
@@ -25,7 +25,6 @@ module.exports = async function handler(req, res) {
     }
 
     // Retell transcript can be a STRING or an ARRAY of objects
-    // Array format: [{ role: "agent", content: "..." }, { role: "user", content: "..." }]
     let transcriptText = '';
 
     if (typeof call.transcript === 'string') {
